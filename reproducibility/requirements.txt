@@ -1,0 +1,8 @@
+# Pinned runtime for figure generation & numerical reruns (Anaconda, Python 3.13.9)
+# Install:  pip install -r requirements.txt   (after: conda create -n measles-ode-ca python=3.13.9)
+# NOTE: torch 2.9.1+cu128 is the CUDA 12.8 build from the pytorch channel; on CPU-only
+#       machines install torch==2.9.1+cpu instead. Reported results used the cu128 build.
+torch==2.9.1+cu128
+numpy==2.3.5
+scipy==1.16.3
+pandas==2.3.3

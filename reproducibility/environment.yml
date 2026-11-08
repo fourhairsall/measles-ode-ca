@@ -1,14 +1,12 @@
 name: measles-ode-ca
 channels:
-  - pytorch
+  - conda-forge
   - defaults
 dependencies:
-  - python=3.13.9
-  - numpy=2.3.5
-  - scipy=1.16.3
-  - pandas=2.3.3
-  - pytorch::torch=2.9.1
+  - python=3.14
+  - numpy=2.4.6
+  - scipy=1.17.1
+  - pandas=3.0.6
   - pip
   - pip:
-      # no extra pip packages required for figure generation
-prefix:
+      # no extra pip packages required; the full pipeline is torch-free

@@ -1,11 +1,11 @@
-"""Canonical generator for the within-host trajectory (fig3_withinhost_traj.csv).
+"""Canonical generator for the within-host trajectory (compiled Fig.2).
 
 One initial condition, one integrator, one event-aligned grid. The CSV produced
 here is the sole source of ``figures/fig3_withinhost_traj.csv`` and of the
 infectiousness kernel ``phi(tau)`` consumed by ``coupling_host_level.py``.
 
     state    : (S, I, A_gamma, A17, V, R, Ab)
-    IC       : (3800, 10, 1, 0, 1e-2, 0, 0)
+    IC       : (3800, 0, 1, 0, 1e-4, 0, 0)  [source-paper initial condition]
     kernel   : OURS = SSP-RK(3,3) with a per-stage non-negative clamp
     grid     : h = 0.1 d, exact restarts at t = 4.2 and t = 10 d, horizon 50 d
 
@@ -16,13 +16,19 @@ import numpy as np
 from scipy.integrate import solve_ivp
 
 import ms_numpy as ms
+from pathlib import Path
 
-HERE = os.path.dirname(os.path.abspath(__file__))
+# 输出目录：<SUB>/figures；若 <repo>/figures 存在则双份同写（字节一致），
+# 从任意 cwd 运行都更新随包 CSV，不产生嵌套目录
+FIG = Path(__file__).resolve().parents[1] / 'figures'
 OUT_FILES = [
-    os.path.join(HERE, 'figures', 'fig3_withinhost_traj.csv'),
+    FIG / 'fig3_withinhost_traj.csv',
 ]
+ROOT_FIG = Path(__file__).resolve().parents[2] / 'figures'
+if ROOT_FIG.is_dir() and ROOT_FIG.resolve() != FIG.resolve():
+    OUT_FILES.append(ROOT_FIG / 'fig3_withinhost_traj.csv')
 
-Y0 = np.array([3800.0, 10.0, 1.0, 0.0, 1e-2, 0.0, 0.0])
+Y0 = np.array([3800.0, 0.0, 1.0, 0.0, 1e-4, 0.0, 0.0])
 EVENTS = [4.2, 10.0]
 DT = 0.1
 T_END = 50.0
@@ -60,12 +66,16 @@ def stiff_reference(y0=Y0, t_ref=T_REF, dt=DT):
     ref_t, ref_y = [], []
     cur = np.asarray(y0, dtype=float).copy()
     for a, b in zip(segs[:-1], segs[1:]):
+        # Hold both switches at their left-hand value on each segment, exactly
+        # as ssp_rk33_pp_step does, so the reference and OURS see the same
+        # discontinuous right-hand side.
+        sw = (1.0 if a < p.td else 0.0, 1.0 if a >= p.tAb else 0.0)
         teval = np.arange(a, b + 1e-12, dt)
         teval = teval[teval <= b + 1e-12]
         sol = None
         for meth in ('LSODA', 'Radau', 'BDF'):
-            s = solve_ivp(lambda t, z: ms.measles_rhs(z, t, p), (a, b), cur,
-                          method=meth, rtol=1e-10, atol=1e-12,
+            s = solve_ivp(lambda t, z: ms.measles_rhs(z, t, p, switches=sw),
+                          (a, b), cur, method=meth, rtol=1e-10, atol=1e-12,
                           dense_output=True)
             if s.success:
                 sol = s

@@ -1,78 +1,114 @@
 # measles-ode-ca
 
-Numerical code and data for a multiscale measles modeling study: a
-seven-variable within-host ODE system (target cells, infected cells,
-IFN-γ and IL-17 branches, infectious virus, persistent RNA, neutralising
-antibody) coupled to a 52-entity host-level map through a pre-computed
-infectiousness kernel φ(τ) and clearance age τ*.
+Numerical code and data for a multiscale measles modeling study. A
+seven-variable within-host ODE system is solved once, off line, and its
+viral-load trajectory supplies a fixed infectiousness kernel phi(tau) and a
+clearance age tau*. These drive a host-level metapopulation of 52 U.S.
+reporting entities: an S -> I -> R map with K=40 Erlang infection-age bins,
+a row-stochastic gravity mixing matrix W with zero diagonal, and a
+state-dependent force of infection Lambda = beta_sp W (I phi(tau)/N).
 
-The pipeline covers, end to end:
+The population step is advanced by the M3 macro-step integrator. M3 writes
+the host-level field as a quadratic vector field, differentiates Lambda along
+the exact flow by a Taylor recursion from the current state only, and
+represents the predicted Lambda(s) as a non-negative square. The resulting
+non-autonomous linear Markov subsystem is advanced in closed form with the
+exact Erlang propagator. The one-step map is positive and conservative by
+construction for any step size; no clipping, limiter, sub-cycling or
+post-hoc correction is used.
 
-- within-host integration with a third-order SSP-RK(3,3) scheme plus a
-  per-stage non-negative clamp, with event-aware restarts at the
-  interferon switch (t = 4.2 d) and antibody onset (t = 10 d);
-- the pre-computed infectiousness kernel extracted once, off line, from
-  the canonical within-host trajectory;
-- the coupled host-level map (cohort age bins, row-stochastic gravity
-  coupling W with zero diagonal, β_sp = 15/13 d⁻¹, R0 = 15) whose
-  bridging increment is rescaled by a mass-conserving min-limiter;
-- positivity-stress experiments (β_sp up to 120 d⁻¹), grid-independence
-  sweeps (N = 8 … 52), and a feasibility run against Project Tycho
-  Level 2 U.S. measles surveillance (records 1906–2001; aggregation
-  window 1945–1962, pre-vaccination).
+This repository contains code and derived data only. It contains no
+manuscript, no LaTeX source and no compiled PDF. The `submission/` directory
+of the journal package is the authoritative source of every number quoted in
+the paper, and this repository is its deterministic mirror (see below).
 
 ## Layout
 
 ```
 .
-├── ms_numpy.py                  # within-host solver core (NumPy, float64)
-├── coupling_host_level.py       # coupled 52-entity host-level system
-├── regen_fig3_ours.py           # within-host trajectory + kernel (fig:traj data)
-├── regen_fig4_and_bare.py       # coupling-stress figures + tables (fig:stress,
-│                                #   fig:crossscale, tab:sota_coupled, tab:bare data)
-├── regen_fig7_honest.py         # real-data feasibility ranks (fig:realdataval)
-├── gen_fig8_leading.py          # observed 1945–1962 time series (fig:realdatats)
-├── prep_figures.py / gen_figdata.py  # two-step chain for fig:field
-├── W_gravity_52x52_rowstochastic.csv  # coupling matrix W (rows sum to 1, diag = 0)
-├── data/                        # small bundled inputs (see Data below)
-├── figures/                     # generated figure/table data (CSV)
-├── reproducibility/             # environment lock, figure↔script map,
-│                                #   seed/dtype statement, runtime tool
-└── LICENSE                      # MIT
+|-- run_all.py                    # one-shot regeneration of all figure/table CSVs
+|-- code/
+|   |-- ms_numpy.py               # seven-variable within-host core (NumPy, float64)
+|   |-- coupling_host_level.py    # gravity matrix, kernel, host-level step
+|   |-- p0b_experiment.py         # shared setup: K, sigma, W, phi, DOP853 reference
+|   |-- m3_experiment.py          # M3 accuracy / order / large-step / cost experiments
+|   |-- regen_fig3_ours.py        # within-host trajectory + kernel (Fig.1 data)
+|   |-- regen_ours_convergence.py # within-host + smooth-scalar convergence (Fig.2 data)
+|   |-- regen_self_convergence.py # reference-free self-convergence (Table data)
+|   |-- regen_fig4_and_bare.py    # coupling-stress figures and tables
+|   |-- regen_fig7_honest.py      # STATE-only real-data ranks
+|   |-- gen_fig7_model_rho.py, gen_figdata.py, prep_figures.py, gen_fig8_leading.py
+|   |-- data/                     # small bundled inputs
+|   |-- W_gravity_52x52_rowstochastic.csv
+|   `-- LICENSE
+|-- figures/                      # 33 generated figure/table CSVs
+|-- data/                         # bundled Tycho 1945-1962 STATE subset
+|-- reproducibility/              # environment lock, figure-script map, seed/dtype note
+`-- LICENSE                       # MIT
 ```
 
 ## Quick start
 
+Python 3.14 with NumPy 2.4.x, SciPy 1.17.x and pandas 3.0.x. No GPU, no
+PyTorch, no network access and no external data are needed.
+
 ```bash
-conda env create -f reproducibility/environment.yml   # or: pip install -r reproducibility/requirements.txt
-python regen_fig3_ours.py        # within-host trajectory + phi(tau)
-python regen_fig4_and_bare.py    # coupling-stress figures + both tables
-python regen_fig7_honest.py      # real-data feasibility ranks
+python run_all.py
 ```
 
-All main-chain scripts read and write `figures/` and `data/` relative to the
-repository root and run as-is. `gen_fig8_leading.py` additionally needs `tycho_measles_cases.csv`
-(≈40 MB, the measles extraction of Project Tycho Level 2; regenerate it
-from the public Project Tycho source — it is not bundled). Its compiled
-outputs `fig8_leading_annual.csv` / `fig8_leading_weekly.csv` are included
-under `figures/`.
+`run_all.py` resolves every path from its own location and writes all outputs
+into `figures/`. Verified end to end in a clean copy of this repository:
+9 generators succeed, 22 output files are produced, exit code 0. The M3
+numerical experiments are a separate step because they rewrite
+machine-dependent timing columns:
 
-All reported results are deterministic single runs: the coupled map has no
-random source, and the pipeline uses float64 throughout. See
-`reproducibility/seeds_and_dtype.md` and `reproducibility/figure_script_map.csv`
-for the full provenance of every figure and table.
+```bash
+python code/m3_experiment.py      # ~50 s; writes 8 m3_*.csv and m3_results.md
+```
+
+## Convergence evidence
+
+- `figures/ours_order_verify.csv` is the master record. The measles arm
+  compares SSP-RK(3,3) with a piecewise Radau reference whose dense-output
+  polynomial is evaluated at the numerical grid points; the numerical
+  trajectory is never interpolated. The observed order rises monotonically
+  from 2.913 to 2.997.
+- `figures/ours_self_convergence.csv` confirms the fourth order of the
+  coupled M3 step without any reference solution, by comparing nested grids
+  at coincident times: fitted order 3.995723 (R^2 = 0.99999973, n = 7). The
+  end-state-only norm is reported alongside and reaches double precision
+  round-off below h = 0.0625 d.
+- `figures/m3_convergence.csv` holds the eight-step fits of all 15 arms; the
+  production arm M3-p3 fits order 3.991842.
 
 ## Data
 
-- `data/tycho_ca_initial_field_state.csv` — 52-entity initial seeding-weight
-  field derived from Project Tycho Level 2 state-level measles reports
-  (1945–1962 aggregation).
-- `data/state_geo_population.csv` — state centroids (lat/lon) with 1960
-  Census populations and the seeding weights.
-- Project Tycho Level 2 data are publicly available from the University of
-  Pittsburgh (van Panhuis et al., 2013) and are subject to their terms of
-  use; the raw and extracted case files are therefore not redistributed
-  here.
+`data/tycho_measles_1945_1962_minimal.csv` is a bundled subset of Project
+Tycho Level 2 v1.1.0: all `loc_type=STATE` measles rows with report years
+1945-1962, written out unchanged. It is enough to regenerate every real-data
+figure and table. The full 448 MB Level 2 file and the 39 MB measles extract
+are not redistributed here; Project Tycho data are subject to the terms of
+use of the University of Pittsburgh (van Panhuis et al., 2013).
+
+`code/W_gravity_52x52_rowstochastic.csv` is row-stochastic with a zero
+diagonal, so the force of infection on a patch excludes that patch's own
+infected stock.
+
+## Relation to the submission package
+
+| submission package | this repository |
+|---|---|
+| `submission/code/` | `code/` |
+| `submission/figures/` | `figures/` |
+| `submission/data/` | `data/` |
+| `submission/reproducibility/` | `reproducibility/` |
+| `submission/run_all.py` | `run_all.py` |
+
+The reproducibility documents shipped here are path-adapted to the repository
+layout; the versions in the submission package describe the same data and the
+same commands. Files under `figures/` and `code/` are byte-identical in both.
+Manuscript sources, the compiled PDF, the cover letter and the bibliography
+are deliberately absent (see `.gitignore`).
 
 ## License
 

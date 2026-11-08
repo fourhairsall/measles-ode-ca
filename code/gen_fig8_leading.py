@@ -11,11 +11,18 @@ Outputs (for pgfplots, comma-separated, header row):
       (weekly measles cases of the single leading state, fractional year on x)
 """
 import csv, os
+from pathlib import Path
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-SRC = os.path.join(HERE, "data", "tycho_measles_cases.csv")
-ANN_OUT = os.path.join(HERE, "figures", "fig8_leading_annual.csv")
-WK_OUT = os.path.join(HERE, "figures", "fig8_leading_weekly.csv")
+SUB = Path(__file__).resolve().parents[1]          # submission/
+FIG = SUB / "figures"
+# 默认读随包最小子集（1945-1962 全部 STATE 行，真实流式抽取自 39 MB 原始 CSV）；
+# 若仓库根 data/tycho_measles_cases.csv（39 MB 原始）存在则优先用原始，
+# 两者经逐行校验的聚合输出完全一致。干净拷贝中原始文件不存在，自动走随包子集。
+MINIMAL = SUB / "data" / "tycho_measles_1945_1962_minimal.csv"
+RAW_39MB = SUB.parent / "data" / "tycho_measles_cases.csv"
+SRC = RAW_39MB if RAW_39MB.is_file() else MINIMAL
+ANN_OUT = FIG / "fig8_leading_annual.csv"
+WK_OUT = FIG / "fig8_leading_weekly.csv"
 YLO, YHI = 1945, 1962
 
 annual = {}   # (state, year) -> sum

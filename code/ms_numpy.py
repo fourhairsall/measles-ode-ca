@@ -1,9 +1,11 @@
 """torch-free (numpy) port of measles_solvers_pytorch + validate_positivity kernels.
 
-Purpose: a faithful numpy re-implementation of the coupling-ablation pipeline,
-torch-free. Every routine below is a line-by-line port of the torch original;
-the port is validated by reproducing figures/fig3_withinhost_traj.csv to
-round-off.
+Purpose: a self-contained, torch-free reference implementation of the
+within-host ODE, the SSP-RK(3,3) positivity-preserving kernel and the host-level
+coupling kernels used by the manuscript. Every routine below is a line-by-line
+port of the torch original; the port is validated by reproducing
+figures/fig3_withinhost_traj.csv (the trajectory shipped in the manuscript)
+to round-off.
 
 Ported from
   measles_solvers_pytorch.py : Params/default_params, measles_rhs,
@@ -44,7 +46,7 @@ def _sig(x):
 # ---------------------------------------------------------------------------
 # measles_rhs (measles_solvers_pytorch.py:140-195). y: [N,7]
 # ---------------------------------------------------------------------------
-def measles_rhs(y, t, p):
+def measles_rhs(y, t, p, switches=None):
     S = y[..., 0]
     I = y[..., 1]
     Ag = y[..., 2]
@@ -56,13 +58,22 @@ def measles_rhs(y, t, p):
     Atot = Ag + A17
     fV = V / (p.s + V)
 
-    delta_hat = 1.0 if t < p.td else 0.0
-    H_ab = 1.0 if t >= p.tAb else 0.0
+    if switches is None:
+        delta_hat = 1.0 if t < p.td else 0.0
+        H_ab = 1.0 if t >= p.tAb else 0.0
+    else:
+        # Event-aligned step: both Heaviside switches are held at their
+        # left-hand value for all three RK stages (see ssp_rk33_pp_step).
+        delta_hat, H_ab = switches
     sig = _sig(p.alpha_t * (t - p.t17) + p.alpha_R * np.log1p(R))
     gR = np.log1p(R)
 
     dS = -p.beta * S * V + p.qs * delta_hat * S + p.r * (1.0 - fV) * Atot
-    dI = p.beta * (S + Atot) * V - p.delta * I - p.kI * Atot
+    # Source Eq. (7b): immune killing is the mass-action product -k*I*A_tot,
+    # with k = 0.017 uL cell^-1 day^-1 (legacy field name ``kI`` = coefficient k).
+    # The earlier constant sink -k*A_tot was a transcription error; see
+    # mathematics-14-03336-v2.pdf, p.8, Eq. (7b) and Table 1.
+    dI = p.beta * (S + Atot) * V - p.delta * I - p.kI * I * Atot
     dAg = (p.q * fV * Atot * (1.0 - sig) - p.beta * Ag * V
            - (1.0 - fV) * (p.d + p.r) * Ag - p.kappa17 * Ag + p.uCTL)
     dA17 = (p.q * fV * Atot * sig + p.kappa17 * Ag - p.beta * A17 * V
@@ -75,17 +86,24 @@ def measles_rhs(y, t, p):
 
 
 # ---------------------------------------------------------------------------
-# ssp_rk33_pp_step (measles_solvers_pytorch.py:251-272)
-#   NOTE: the torch original evaluates L1 and L2 both at t+dt (not t+dt/2);
-#   the port keeps that behaviour verbatim.
+# ssp_rk33_pp_step: SSP-RK(3,3) with a per-stage non-negative clamp.
+#   Two corrections over the original torch port:
+#   (i)  the third stage is evaluated at t+dt/2, the standard SSP-RK(3,3)
+#        stage time for a non-autonomous system, not at t+dt;
+#   (ii) the two Heaviside switches (delta_hat at t=td, H_ab at t=tAb) are
+#        held at their left-hand value for the whole step.  Without (ii) a
+#        step ending on a switch straddles the discontinuity and the observed
+#        order collapses to one.  With both, the full third order is recovered.
 # ---------------------------------------------------------------------------
 def ssp_rk33_pp_step(y, t, dt, p):
-    L0 = measles_rhs(y, t, p)
+    sw = (1.0 if t < p.td else 0.0, 1.0 if t >= p.tAb else 0.0)
+    L0 = measles_rhs(y, t, p, switches=sw)
     y1 = np.maximum(y + dt * L0, 0.0)
-    L1 = measles_rhs(y1, t + dt, p)
+    L1 = measles_rhs(y1, t + dt, p, switches=sw)
     y2 = np.maximum(0.75 * y + 0.25 * y1 + 0.25 * dt * L1, 0.0)
-    L2 = measles_rhs(y2, t + dt, p)
-    y3 = np.maximum((1.0 / 3.0) * y + (2.0 / 3.0) * y2 + (2.0 / 3.0) * dt * L2, 0.0)
+    L2 = measles_rhs(y2, t + 0.5 * dt, p, switches=sw)
+    y3 = np.maximum((1.0 / 3.0) * y + (2.0 / 3.0) * y2
+                    + (2.0 / 3.0) * dt * L2, 0.0)
     return y3
 
 

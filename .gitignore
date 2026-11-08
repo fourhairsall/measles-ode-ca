@@ -7,3 +7,4 @@ __pycache__/
 *.bbl
 *.blg
 .DS_Store
+*.bak_repro

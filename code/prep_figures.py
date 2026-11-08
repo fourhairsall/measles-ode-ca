@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 """Generate figure data read by pgfplots (Tycho field / closed-loop stress).
 
-The within-host trajectory (``fig3_withinhost_traj.csv``) is
+The within-host trajectory (compiled Fig.2, ``fig3_withinhost_traj.csv``) is
 generated exclusively by ``regen_fig3_ours.py``; this script never writes it.
 """
 import os, csv
+from pathlib import Path
 
-ROOT = os.path.dirname(os.path.abspath(__file__))
-FIG = os.path.join(ROOT, "figures")
-os.makedirs(FIG, exist_ok=True)
-DATA = os.path.join(ROOT, "data")
+SUB = Path(__file__).resolve().parents[1]     # submission/
+CODE = Path(__file__).resolve().parent        # submission/code/
+FIG = SUB / "figures"
+FIG.mkdir(parents=True, exist_ok=True)
+DATA = CODE / "data"                          # 随包小数据（初值场 / 旧闭环结果）
 
 # ---------------------------------------------------------------------------
 # Tycho 52-state real rho initial field (descending)

@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
 """
 measure_runtime.py — 实测每个图生成脚本的 wall-clock 与峰值内存，
-用于在可复现性包中回填"实测 wall-clock/内存"。
+用于在可复现性包 (P1-33) 中回填"实测 wall-clock/内存"。
 
 用法：
     python reproducibility/measure_runtime.py            # 测全部（耗时较长）
-    python reproducibility/measure_runtime.py regen_fig3_ours.py verify_ours_order.py
+    python reproducibility/measure_runtime.py regen_fig3_ours.py regen_ours_convergence.py
 
 说明：
 - 通过 subprocess 调用目标脚本，测量 wall-clock（time.perf_counter）与峰值 RSS
   （resource.getrusage 在 POSIX；Windows 用 psutil 或回退到 tracemalloc 近似）。
-- 需要在 Anaconda (torch) 环境下运行，且已设置 KMP_DUPLICATE_LIB_OK=TRUE。
+- 全链 torch-free：Python 3.14 + NumPy 2.4.6 / SciPy 1.17.1 / pandas 3.0.6；无需 GPU、CUDA 或任何环境变量。
 - 输出 reproducibility/runtime_measurements.csv（script, wall_s, peak_mem_MB）。
 
-注意：本机测量值仅作格式示范；请在目标机器上复测后回填 README §10。
+注意：本机测量值仅作格式示范；请在提交/评审机器上复测后回填 README §9。
 """
 import os
 import sys
@@ -29,17 +29,12 @@ os.makedirs(FIG, exist_ok=True)
 # 图生成脚本清单（与 figure_script_map.csv 对应）
 SCRIPTS = [
     "regen_fig3_ours.py",
-    "validate_theory.py",
+    "regen_ours_convergence.py",
     "prep_figures.py",
     "gen_figdata.py",
-    "run_closed_loop.py",
-    "densify_figs.py",
-    "regen_wh_conv_sota.py",
-    "verify_ours_order.py",
-    "densify_crossscale_only.py",
-    "per_cell_error_sweep_v2.py",
-    "rerun_fig7.py",
+    "regen_fig7_honest.py",
     "gen_fig8_leading.py",
+    "regen_fig4_and_bare.py",
 ]
 
 
@@ -64,7 +59,6 @@ def run_one(script):
     if not os.path.exists(path):
         return script, float("nan"), float("nan"), "missing"
     env = dict(os.environ)
-    env["KMP_DUPLICATE_LIB_OK"] = "TRUE"
     t0 = time.perf_counter()
     try:
         proc = subprocess.run(

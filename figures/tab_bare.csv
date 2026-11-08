@@ -1,3 +1,11 @@
-beta_sp,bare_all_finite,bare_neg_S_stored,E_clip_clip,E_clip_mpp_defcheck,cons_resid_clip,cons_resid_mpp
-1.153846,True,0,0.000000e+00,0.000000e+00,3.197442e-14,3.197442e-14
-60.000000,False,550,3.496802e+01,0.000000e+00,2.507416e+00,2.131628e-14
+beta_sp,treatment,arm,substep_mode,substeps_per_macro,all_finite,neg_S,cons_resid_frac,cons_resid_1e6,min_S_frac,E_preclip_deficit_frac,E_preclip_deficit_1e6
+1.153846,M3-structural,M3-p3,one-step,1.00,True,0,8.736588e-15,5.329071e-14,0.000e+00,0.000000e+00,0.000000e+00
+1.153846,"post-hoc-clip, one step",clip,one-step,1.00,True,0,3.670451e-15,2.486900e-14,0.000e+00,0.000000e+00,0.000000e+00
+1.153846,"untreated, one step",bare,one-step,1.00,True,0,3.670451e-15,2.486900e-14,0.000e+00,0.000000e+00,0.000000e+00
+1.153846,"post-hoc-clip, auto",clip,auto,1.96,True,0,6.048346e-15,2.486900e-14,0.000e+00,0.000000e+00,0.000000e+00
+1.153846,"untreated, auto",bare,auto,1.96,True,0,6.048346e-15,2.486900e-14,0.000e+00,0.000000e+00,0.000000e+00
+60.000000,M3-structural,M3-p3,one-step,1.00,True,0,7.266276e-15,4.973799e-14,0.000e+00,0.000000e+00,0.000000e+00
+60.000000,"post-hoc-clip, one step",clip,one-step,1.00,True,0,6.737236e-01,2.393798e+00,0.000e+00,1.801715e-01,3.273224e+01
+60.000000,"untreated, one step",bare,one-step,1.00,False,1277,2.053681e+118,3.227812e+119,nan,nan,nan
+60.000000,"post-hoc-clip, auto",clip,auto,59.81,True,0,9.536640e-15,9.237056e-14,0.000e+00,0.000000e+00,0.000000e+00
+60.000000,"untreated, auto",bare,auto,59.81,True,0,9.536640e-15,9.237056e-14,0.000e+00,0.000000e+00,0.000000e+00

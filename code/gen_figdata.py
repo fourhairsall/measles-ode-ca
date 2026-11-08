@@ -4,8 +4,10 @@
 - figures/state_geo.csv  : state,lat,lon,rho  (comma, header) for a geographic scatter.
 """
 import csv, numpy as np
+from pathlib import Path
 
-HERE = "figures"
+# 绝对路径 <SUB>/figures；从任意 cwd 运行都更新随包 CSV，不产生嵌套目录
+HERE = Path(__file__).resolve().parents[1] / "figures"
 # 52 state abbreviations in the paper's canonical order (config state_names)
 STATES = ["TX","NY","CA","WI","NJ","PA","MI","MA","OH","IL","WA","VA","CT","TN","KY",
           "IN","IA","CO","OR","WV","MD","AZ","UT","AL","NC","KS","FL","ME","AR","MO",

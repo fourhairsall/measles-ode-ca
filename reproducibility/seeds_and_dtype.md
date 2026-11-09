@@ -104,3 +104,30 @@ md5sum figures/*.csv figures/*.csv
 `figures/` 与 `figures/` 由各生成器在一次运行中双写，不需要事后 `cp` 同步；
 实测 31 组同名文件逐位一致。`figures/` 与 `figures/` 各自另有少量
 仅单侧存在的文件（不参与稿件绘图），详见 `README.md`。
+
+
+## 第 8 轮路线 B 新增生成器（2026-11-10）
+
+本节新增脚本 `regen_nonsaturating.py`、`regen_m3_mprk.py`、
+`regen_second_system.py` 与 `regen_wavefront.py` 全程 float64、
+**不使用任何随机流、不设 seed**，与 §11.9 的 `regen_m3_midstep.py` 口径一致。
+`m3_mprk.csv` 的 `wall_ms_median` / `wall_ms_min` 为 9 次计时中位数，机器相关、
+不可逐位复现；其余列与所有 nonsaturating 系列列均为确定性结果。
+
+这些脚本在**投稿包布局**（项目根含 `submission/` 子目录）下执行，从
+`submission/` 目录运行：
+
+```
+C:/Python314/python.exe code/regen_nonsaturating.py
+C:/Python314/python.exe code/regen_m3_mprk.py
+C:/Python314/python.exe code/regen_second_system.py
+C:/Python314/python.exe code/regen_wavefront.py
+```
+
+在本仓库镜像中它们仅作溯源：输出目录按 `code/` 的父目录解析，直接运行会写到
+仓库之外。已生成的十个产物随 `figures/` 提供，md5 见
+`reproducibility/README.md` 与 `figure_script_map.csv`；主链 `python run_all.py`
+在仓库干净拷贝中仍可完整端到端复跑。路径口径详见仓库根 README 的
+「Additional standalone generators」节。
+
+`regen_m3_midstep.py` 的独立复跑命令见 §11.9 与 `figure_script_map.csv`。

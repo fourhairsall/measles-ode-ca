@@ -38,10 +38,12 @@ the paper, and this repository is its deterministic mirror (see below).
 |   |-- regen_fig4_and_bare.py    # coupling-stress figures and tables
 |   |-- regen_fig7_honest.py      # STATE-only real-data ranks
 |   |-- gen_fig7_model_rho.py, gen_figdata.py, prep_figures.py, gen_fig8_leading.py
+|   |-- regen_m3_midstep.py, regen_m3_mprk.py, regen_nonsaturating.py,
+|   |   regen_second_system.py, regen_wavefront.py  # standalone R8 generators
 |   |-- data/                     # small bundled inputs
 |   |-- W_gravity_52x52_rowstochastic.csv
 |   `-- LICENSE
-|-- figures/                      # 33 generated figure/table CSVs
+|-- figures/                      # 42 generated figure/table CSVs + 1 PNG
 |-- data/                         # bundled Tycho 1945-1962 STATE subset
 |-- reproducibility/              # environment lock, figure-script map, seed/dtype note
 `-- LICENSE                       # MIT
@@ -65,6 +67,29 @@ machine-dependent timing columns:
 ```bash
 python code/m3_experiment.py      # ~50 s; writes 8 m3_*.csv and m3_results.md
 ```
+
+## Additional standalone generators
+
+Five further generators support the extended comparison set. They are not part
+of `run_all.py`: three write machine-dependent timing columns, and all five were
+executed in the journal-package layout, whose project root contains a
+`submission/` directory. In that layout, from `submission/`:
+
+```bash
+python code/regen_m3_midstep.py      # 34 intermediate step sizes
+python code/regen_nonsaturating.py   # ~90 s; R0 sweep, kernel sensitivity, endpoints
+python code/regen_m3_mprk.py         # ~58 s; modified-Patankar arms, RK4 attribution
+python code/regen_second_system.py   # 8-stage / 12-patch model-class instance
+python code/regen_wavefront.py       # ~693 s; lambda_0=0 branch and self-loop sweep
+```
+
+Each writes one in-memory payload to both `figures/` and `submission/figures/`
+and asserts the two md5 values agree. In this repository mirror the scripts are
+shipped for provenance only: they resolve their output directories relative to
+the parent of `code/`, so running them here would write outside the repository.
+The ten generated artifacts are provided in `figures/`, with md5 values recorded
+in `reproducibility/figure_script_map.csv`. The main chain `python run_all.py`
+remains fully self-contained in a clean copy of this repository.
 
 ## Convergence evidence
 

@@ -1,0 +1,195 @@
+section,system,arm,h,h_fine,key,value,unit,L2_rel_err,max_abs_err,order_local,fit_order,fit_R2,n_points,d_full,e_h_full,L2_ref,ratio_e_over_ref,nested_ok,all_finite,min_S,min_I_bins,min_R,neg_S_cells,neg_I_bin_cells,neg_R_cells,max_abs_mass_drift,max_cons_resid,n_l0_nonpos,n_l0_zero,lambda0_min,min_lambda_poly,min_pj,n_static_fallback,ref_solver,ref_max_abs_diff,note
+system_config,A,,,,K_bins,40,bins,,,,,,,,,,,,,,,,,,,,,,,,,,,,,read from chl.K_BINS (production)
+system_config,A,,,,n_patches,52,patches,,,,,,,,,,,,,,,,,,,,,,,,,,,,,len(chl.load_rho(...))
+system_config,A,,,,TG,1.3000000000e+01,d,,,,,,,,,,,,,,,,,,,,,,,,,,,,,read from chl.TG
+system_config,A,,,,EPS_V,1.0000000000e-03,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,read from chl.EPS_V
+system_config,A,,,,BETA_SP,1.1538000000e+00,1/d,,,,,,,,,,,,,,,,,,,,,,,,,,,,,read from chl.BETA_SP
+system_config,A,,,,M3_ORDER,3,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,read from chl.M3_ORDER
+system_config,A,,,,Q_INCIDENCE,16,nodes,,,,,,,,,,,,,,,,,,,,,,,,,,,,,read from chl.Q_INCIDENCE
+system_config,A,,,,Q_HAZARD,8,nodes,,,,,,,,,,,,,,,,,,,,,,,,,,,,,read from chl.Q_HAZARD
+system_config,A,,,,incidence,frequency-dependent standard incidence beta_sp*W@(Phi/N_j),-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,production form; (c) is changed in B
+system_config,A,,,,phi_shape,V(t)-derived from fig3_withinhost_traj.csv,-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,production kernel from a shipped CSV
+system_config,B,,,,K_bins,8,bins,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ILLUSTRATIVE; changed vs A (40 -> 8)
+system_config,B,,,,n_patches,12,patches,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ILLUSTRATIVE; changed vs A (52 -> 12)
+system_config,B,,,,tau_star,6.0000000000e+00,d,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ILLUSTRATIVE; controls sigma
+system_config,B,,,,sigma,1.3333333333e+00,1/d,,,,,,,,,,,,,,,,,,,,,,,,,,,,,= K/tau_star
+system_config,B,,,,dtau,7.5000000000e-01,d,,,,,,,,,,,,,,,,,,,,,,,,,,,,,= tau_star/K
+system_config,B,,,,Tg_scale,6.0000000000e+00,d,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ILLUSTRATIVE normalisation int phi dtau = Tg
+system_config,B,,,,phi_shape,symmetric tent (triangular/unimodal),-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ILLUSTRATIVE; changed vs A V-derived shape
+system_config,B,,,,phi_min,2.5000000000e-01,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,all phi_k >= 0
+system_config,B,,,,phi_max,1.7500000000e+00,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+system_config,B,,,,sum_phi_dtau,6.0000000000e+00,d,,,,,,,,,,,,,,,,,,,,,,,,,,,,,must equal Tg_scale by construction
+system_config,B,,,,beta,2.5000000000e-01,1/(d*unit),,,,,,,,,,,,,,,,,,,,,,,,,,,,,ILLUSTRATIVE
+system_config,B,,,,W_type,"deterministic 12-patch ring, row-stochastic",-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ILLUSTRATIVE; no random stream; G_ij=exp(-d_ring/2)
+system_config,B,,,,W_rowsum_max_dev,2.2204460493e-16,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+system_config,B,,,,N_min,1.0000000000e+00,units,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ILLUSTRATIVE synthetic population
+system_config,B,,,,N_max,2.1000000000e+00,units,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+system_config,B,,,,rho_min,1.0000000000e-02,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ILLUSTRATIVE seeding
+system_config,B,,,,rho_max,3.0000000000e-02,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+system_config,B,,,,incidence,mass_action (density-dependent) Lambda=beta*W@Phi,-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ILLUSTRATIVE; (c) CHANGED vs A: NO 1/N_j
+system_config,B,,,,T1,6.0000000000e+01,d,,,,,,,,,,,,,,,,,,,,,,,,,,,,,horizon
+system_config,B,,,,phi_k00,2.5000000000e-01,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"ILLUSTRATIVE tent kernel, bin centre 0.3750 d"
+system_config,B,,,,phi_k01,7.5000000000e-01,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"ILLUSTRATIVE tent kernel, bin centre 1.1250 d"
+system_config,B,,,,phi_k02,1.2500000000e+00,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"ILLUSTRATIVE tent kernel, bin centre 1.8750 d"
+system_config,B,,,,phi_k03,1.7500000000e+00,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"ILLUSTRATIVE tent kernel, bin centre 2.6250 d"
+system_config,B,,,,phi_k04,1.7500000000e+00,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"ILLUSTRATIVE tent kernel, bin centre 3.3750 d"
+system_config,B,,,,phi_k05,1.2500000000e+00,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"ILLUSTRATIVE tent kernel, bin centre 4.1250 d"
+system_config,B,,,,phi_k06,7.5000000000e-01,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"ILLUSTRATIVE tent kernel, bin centre 4.8750 d"
+system_config,B,,,,phi_k07,2.5000000000e-01,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"ILLUSTRATIVE tent kernel, bin centre 5.6250 d"
+system_config,C,,,,kappa,6.0000000000e-01,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ILLUSTRATIVE saturation coefficient
+system_config,C,,,,incidence,beta*W@(Phi/(N+kappa*TotalI)),-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,NONLINEAR in state; Lambda jet computed by generalised exact recursion
+system_config,C,,,,in_class,false,-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,NOT covered by Propositions 1-2 as stated; boundary probe only
+system_config,C,,,,K_bins,8,bins,,,,,,,,,,,,,,,,,,,,,,,,,,,,,same geometry as B
+system_config,C,,,,n_patches,12,patches,,,,,,,,,,,,,,,,,,,,,,,,,,,,,same geometry as B
+system_config,NC1,,,,purpose,negative control / premise failure,-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ILLUSTRATIVE synthetic; not a biological prediction
+system_config,NC2,,,,purpose,negative control / premise failure,-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ILLUSTRATIVE synthetic; not a biological prediction
+system_config,NC1,,,,K_bins,3,bins,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ILLUSTRATIVE
+system_config,NC1,,,,n_patches,1,patches,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ILLUSTRATIVE
+system_config,NC1,,,,sigma,8.0000000000e-01,1/d,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ILLUSTRATIVE
+system_config,NC1,,,,negative_offdiag_rho,3.5000000000e-01,1/d,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ILLUSTRATIVE; breaks Metzler
+system_config,NC2,,,,K_bins,3,bins,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ILLUSTRATIVE
+system_config,NC2,,,,n_patches,1,patches,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ILLUSTRATIVE
+system_config,NC2,,,,tau_star,4.5000000000e+00,d,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ILLUSTRATIVE
+system_config,NC2,,,,phi_shape,uniform,-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ILLUSTRATIVE
+system_config,NC2,,,,c1,9.0000000000e-01,1/d,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ILLUSTRATIVE linear coefficient
+system_config,NC2,,,,c2,1.4000000000e+00,1/d,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ILLUSTRATIVE product coefficient (2nd scalar)
+verification,,,,,V1_kernel_rowsum_max_dev,4.4408920985e-16,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"max |sum_k P_k(mu_j)+gamma_inc(K,mu_j)-1| over all used h"
+verification,,,,,V1_kernel_Pmat_min,2.7578209447e-35,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,must be >= 0
+verification,,,,,V1_kernel_sv_old_min,3.4063447489e-21,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,must be >= 0
+verification,,,,,V2_removal_identity_max_dev,6.2172489379e-15,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Poisson propagator vs stable survival form
+verification,,,,,V3_sum_phi_dtau_minus_Tg,0.0000000000e+00,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,must be ~0
+verification,,,,,V3_min_phi,2.5000000000e-01,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,must be >= 0
+verification,,,,,V4_lam_derivs2_vs_chl_lam_derivs,0.0000000000e+00,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,equivalent implementation vs production function (N=1)
+verification,,,,,V5_square_predictor_jet_max_dev,3.2526065175e-19,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Lambda(s)=l0(1+d1 s+d2 s^2+d3 s^3)^2 reproduces lambda_0..3
+verification,,,,,V5_n_nonpos_l0_at_t0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,lambda_0>0 branch count at the initial state
+verification,,,,,V6_jet_kappa0_vs_linear,5.4210108624e-20,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,saturating jet at kappa=0 must equal production linear recursion
+verification,,,,,V7_DOP853_vs_Radau_max_abs_diff,1.1152175971e-11,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"same rtol/atol, dense output, finest grid"
+verification,,,,,V7_DOP853_nfev,1679,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+verification,,,,,V7_Radau_nfev,9223,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+convergence,B,M3-p3,1.0000000000e+00,,,,,1.8498919943e-05,3.0700965843e-05,nan,,,,,,,,,true,,1.9591732595e-07,,,0,,1.4210854715e-14,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,M3-p3,5.0000000000e-01,,,,,1.3051978977e-06,2.1480734576e-06,3.825101,,,,,,,,,true,,1.9592602552e-07,,,0,,1.7763568394e-14,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,M3-p3,2.5000000000e-01,,,,,8.8658195708e-08,1.4536959569e-07,3.879871,,,,,,,,,true,,1.9592671374e-07,,,0,,1.4210854715e-14,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,M3-p3,1.2500000000e-01,,,,,5.7579586546e-09,9.4230928616e-09,3.944625,,,,,,,,,true,,1.9592676447e-07,,,0,,4.9737991503e-14,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,M3-p3,6.2500000000e-02,,,,,3.6620519141e-10,5.9880733705e-10,3.974833,,,,,,,,,true,,1.9592676788e-07,,,0,,6.0396132540e-14,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,M3-p3,3.1250000000e-02,,,,,2.3141480927e-11,3.7722269752e-11,3.984099,,,,,,,,,true,,1.9592676807e-07,,,0,,9.2370555649e-14,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,M3-p3,1.5625000000e-02,,,,,2.3208621368e-12,1.0840882228e-11,3.317748,,,,,,,,,true,,1.9592676812e-07,,,0,,3.5882408156e-13,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,M3-p3,7.8125000000e-03,,,,,1.8086592870e-12,1.0843665809e-11,0.359740,,,,,,,,,true,,1.9592676910e-07,,,0,,6.0040861172e-13,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,M3-p3,,,fit,,,,,,3.5499226838e+00,9.8400708911e-01,8,,,,,,,,,,,,,,,,,,,,,,,log-log fit over all 8 h; 数值待用户数值确认
+convergence,B,EXP2-midpoint,1.0000000000e+00,,,,,3.1867891315e-03,4.7327376597e-03,nan,,,,,,,,,true,,2.1948927951e-07,,,0,,3.5527136788e-15,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,EXP2-midpoint,5.0000000000e-01,,,,,5.9045221532e-04,8.5824047867e-04,2.432211,,,,,,,,,true,,2.0088982242e-07,,,0,,3.5527136788e-15,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,EXP2-midpoint,2.5000000000e-01,,,,,1.1750430337e-04,1.6679148980e-04,2.329107,,,,,,,,,true,,1.9706048866e-07,,,0,,1.4210854715e-14,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,EXP2-midpoint,1.2500000000e-01,,,,,2.5388757133e-05,3.5298561324e-05,2.210452,,,,,,,,,true,,1.9619703214e-07,,,0,,2.4868995752e-14,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,EXP2-midpoint,6.2500000000e-02,,,,,5.8382966752e-06,8.0551867058e-06,2.120570,,,,,,,,,true,,1.9599269228e-07,,,0,,2.8421709430e-14,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,EXP2-midpoint,3.1250000000e-02,,,,,1.3954950941e-06,1.9386020017e-06,2.064770,,,,,,,,,true,,1.9594304390e-07,,,0,,1.4210854715e-14,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,EXP2-midpoint,1.5625000000e-02,,,,,3.4084265188e-07,4.7519245150e-07,2.033599,,,,,,,,,true,,1.9593081140e-07,,,0,,2.1316282073e-14,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,EXP2-midpoint,7.8125000000e-03,,,,,8.4205761884e-08,1.1761840840e-07,2.017115,,,,,,,,,true,,1.9592777574e-07,,,0,,2.1316282073e-14,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,EXP2-midpoint,,,fit,,,,,,2.1613716387e+00,9.9886384508e-01,8,,,,,,,,,,,,,,,,,,,,,,,log-log fit over all 8 h; 数值待用户数值确认
+convergence,B,Lagrange3-predictor,1.0000000000e+00,,,,,3.6628065782e-03,5.6402143613e-03,nan,,,,,,,,,true,,2.0741176876e-07,,,0,,1.0658141036e-14,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,Lagrange3-predictor,5.0000000000e-01,,,,,8.1098466219e-04,1.2476758366e-03,2.175203,,,,,,,,,true,,1.9826911974e-07,,,0,,2.1316282073e-14,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,Lagrange3-predictor,2.5000000000e-01,,,,,1.8618222154e-04,2.8617908425e-04,2.122959,,,,,,,,,true,,1.9644716165e-07,,,0,,1.0658141036e-14,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,Lagrange3-predictor,1.2500000000e-01,,,,,4.4246042278e-05,6.7973349997e-05,2.073095,,,,,,,,,true,,1.9604865430e-07,,,0,,4.6185277824e-14,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,Lagrange3-predictor,6.2500000000e-02,,,,,1.0759276424e-05,1.6524186882e-05,2.039967,,,,,,,,,true,,1.9595620548e-07,,,0,,6.0396132540e-14,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,Lagrange3-predictor,3.1250000000e-02,,,,,2.6510963312e-06,4.0709650602e-06,2.020920,,,,,,,,,true,,1.9593399758e-07,,,0,,8.8817841970e-14,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,Lagrange3-predictor,1.5625000000e-02,,,,,6.5787408316e-07,1.0101439734e-06,2.010706,,,,,,,,,true,,1.9592855917e-07,,,0,,3.5171865420e-13,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,Lagrange3-predictor,7.8125000000e-03,,,,,1.6385230230e-07,2.5157980899e-07,2.005416,,,,,,,,,true,,1.9592721472e-07,,,0,,5.9685589804e-13,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,Lagrange3-predictor,,,fit,,,,,,2.0585477792e+00,9.9980395966e-01,8,,,,,,,,,,,,,,,,,,,,,,,log-log fit over all 8 h; 数值待用户数值确认
+convergence,B,RawCubic-Taylor,1.0000000000e+00,,,,,7.9746780220e-06,1.5140682321e-05,nan,,,,,,,,,true,,1.9583075274e-07,,,0,,7.1054273576e-15,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,RawCubic-Taylor,5.0000000000e-01,,,,,8.0903073236e-07,1.4832116407e-06,3.301160,,,,,,,,,true,,1.9592089030e-07,,,0,,2.1316282073e-14,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,RawCubic-Taylor,2.5000000000e-01,,,,,6.4136755163e-08,1.1500871067e-07,3.656971,,,,,,,,,true,,1.9592639851e-07,,,0,,1.0658141036e-14,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,RawCubic-Taylor,1.2500000000e-01,,,,,4.4514099424e-09,7.9152545629e-09,3.848817,,,,,,,,,true,,1.9592674493e-07,,,0,,4.6185277824e-14,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,RawCubic-Taylor,6.2500000000e-02,,,,,2.9195311352e-10,5.1705595361e-10,3.930454,,,,,,,,,true,,1.9592676665e-07,,,0,,6.3948846218e-14,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,RawCubic-Taylor,3.1250000000e-02,,,,,1.8754185761e-11,3.3014924128e-11,3.960452,,,,,,,,,true,,1.9592676800e-07,,,0,,9.2370555649e-14,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,RawCubic-Taylor,1.5625000000e-02,,,,,2.1624858531e-12,1.0847698607e-11,3.116450,,,,,,,,,true,,1.9592676808e-07,,,0,,3.7303493627e-13,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,RawCubic-Taylor,7.8125000000e-03,,,,,1.8076694476e-12,1.0844094069e-11,0.258560,,,,,,,,,true,,1.9592676910e-07,,,0,,5.8975047068e-13,,,,,,,,DOP853,,数值待用户数值确认
+convergence,B,RawCubic-Taylor,,,fit,,,,,,3.4074451420e+00,9.8328514883e-01,8,,,,,,,,,,,,,,,,,,,,,,,log-log fit over all 8 h; 数值待用户数值确认
+convergence,C,M3-p3(exact-jet),1.0000000000e+00,,,,,1.9375409341e-06,1.8354430861e-06,,,,,,,,,,true,,6.1357914826e-04,,,0,,7.1054273576e-15,,,,,,,,DOP853,,"boundary probe, OUTSIDE quadratic class; 数值待用户数值确认"
+convergence,C,M3-p3(exact-jet),5.0000000000e-01,,,,,1.5906248632e-07,1.4876685928e-07,,,,,,,,,,true,,6.1358271610e-04,,,0,,1.0658141036e-14,,,,,,,,DOP853,,"boundary probe, OUTSIDE quadratic class; 数值待用户数值确认"
+convergence,C,M3-p3(exact-jet),2.5000000000e-01,,,,,1.1509727764e-08,1.0698318675e-08,,,,,,,,,,true,,6.1358309487e-04,,,0,,7.1054273576e-15,,,,,,,,DOP853,,"boundary probe, OUTSIDE quadratic class; 数值待用户数值确认"
+convergence,C,M3-p3(exact-jet),1.2500000000e-01,,,,,7.6404770252e-10,7.0831207566e-10,,,,,,,,,,true,,6.1358312472e-04,,,0,,2.8421709430e-14,,,,,,,,DOP853,,"boundary probe, OUTSIDE quadratic class; 数值待用户数值确认"
+convergence,C,M3-p3(exact-jet),6.2500000000e-02,,,,,4.9000318187e-11,4.5370263102e-11,,,,,,,,,,true,,6.1358312675e-04,,,0,,1.0658141036e-14,,,,,,,,DOP853,,"boundary probe, OUTSIDE quadratic class; 数值待用户数值确认"
+convergence,C,M3-p3(exact-jet),3.1250000000e-02,,,,,3.0955493981e-12,2.8684832287e-12,,,,,,,,,,true,,6.1358312689e-04,,,0,,5.3290705182e-14,,,,,,,,DOP853,,"boundary probe, OUTSIDE quadratic class; 数值待用户数值确认"
+convergence,C,M3-p3(exact-jet),1.5625000000e-02,,,,,2.3948955008e-13,9.9318470115e-13,,,,,,,,,,true,,6.1358312690e-04,,,0,,2.2026824809e-13,,,,,,,,DOP853,,"boundary probe, OUTSIDE quadratic class; 数值待用户数值确认"
+convergence,C,M3-p3(exact-jet),7.8125000000e-03,,,,,1.1680221642e-13,9.4339813739e-13,,,,,,,,,,true,,6.1358312690e-04,,,0,,3.8369307731e-13,,,,,,,,DOP853,,"boundary probe, OUTSIDE quadratic class; 数值待用户数值确认"
+convergence,C,M3-p3(exact-jet),,,fit,,,,,,3.6206607094e+00,9.9134203467e-01,8,,,,,,,,,,,,,,,,,,,,,,,"boundary probe only, NOT a Proposition claim; 数值待用户数值确认"
+self_convergence,B,M3-p3,1.0000000000e+00,5.0000000000e-01,,,,,,nan,,,,1.7200853826e-05,1.8347577414e-05,1.8498919943e-05,9.9181884515e-01,true,,,,,,,,,,,,,,,,,,"no reference, no interpolation; 数值待用户数值确认"
+self_convergence,B,M3-p3,5.0000000000e-01,2.5000000000e-01,,,,,,3.8213391730e+00,,,,1.2167806383e-06,1.2978993475e-06,1.3051978977e-06,9.9440808924e-01,true,,,,,,,,,,,,,,,,,,"no reference, no interpolation; 数值待用户数值确认"
+self_convergence,B,M3-p3,2.5000000000e-01,1.2500000000e-01,,,,,,3.8754154909e+00,,,,8.2907912826e-08,8.8435107015e-08,8.8658195708e-08,9.9748372171e-01,true,,,,,,,,,,,,,,,,,,"no reference, no interpolation; 数值待用户数值确认"
+self_convergence,B,M3-p3,1.2500000000e-01,6.2500000000e-02,,,,,,3.9426173112e+00,,,,5.3920003288e-09,5.7514670174e-09,5.7579586546e-09,9.9887258010e-01,true,,,,,,,,,,,,,,,,,,"no reference, no interpolation; 数值待用户数值确认"
+self_convergence,B,M3-p3,6.2500000000e-02,3.1250000000e-02,,,,,,3.9739618383e+00,,,,3.4313750969e-10,3.6601334367e-10,3.6620519141e-10,9.9947611954e-01,true,,,,,,,,,,,,,,,,,,"no reference, no interpolation; 数值待用户数值确认"
+self_convergence,B,M3-p3,3.1250000000e-02,1.5625000000e-02,,,,,,3.9887617710e+00,,,,2.1613806368e-11,2.3054726792e-11,2.3141480927e-11,9.9625114163e-01,true,,,,,,,,,,,,,,,,,,"no reference, no interpolation; 数值待用户数值确认"
+self_convergence,B,M3-p3,1.5625000000e-02,7.8125000000e-03,,,,,,3.9687811017e+00,,,,1.3804131843e-12,1.4724407300e-12,2.3208621368e-12,6.3443696486e-01,true,,,,,,,,,,,,,,,,,,"no reference, no interpolation; 数值待用户数值确认"
+self_convergence,B,M3-p3,,,fit_full,,,,,,3.9353829297e+00,9.9994236448e-01,7,,,,,,,,,,,,,,,,,,,,,,,fit of d_full vs h_coarse; 数值待用户数值确认
+positivity,B,M3-p3,1.0000000000e-01,,,,,,,,,,,,,,,,true,1.5203710751e-01,1.9592676658e-07,0.0000000000e+00,0,0,0,5.6843418861e-14,6.2172489379e-15,0,0,1.3331528028e-06,1.2949838129e-06,1.3361278218e-02,0,,,数值待用户数值确认
+positivity,B,M3-p3,1.0000000000e+00,,,,,,,,,,,,,,,,true,1.5203850440e-01,1.9591732595e-07,0.0000000000e+00,0,0,0,1.4210854715e-14,1.5543122345e-15,0,0,1.7338522339e-06,1.2966792453e-06,1.1544834135e-02,0,,,数值待用户数值确认
+positivity,B,M3-p3,4.2000000000e+00,,,,,,,,,,,,,,,,true,1.5186651430e-01,1.7215116007e-07,0.0000000000e+00,0,0,0,3.5527136788e-15,6.6613381478e-16,0,0,1.6186417166e-06,1.1405292514e-06,6.8035524881e-03,0,,,数值待用户数值确认
+positivity,B,M3-p3,9.0000000000e+00,,,,,,,,,,,,,,,,true,1.7692661521e-02,1.3865267364e-07,0.0000000000e+00,0,0,0,3.5527136788e-15,4.4408920985e-16,0,0,4.3307360697e-04,1.3256745978e-06,2.4584788318e-06,0,,,数值待用户数值确认
+positivity,B,M3-p3,2.0000000000e+01,,,,,,,,,,,,,,,,true,1.3997211103e-20,1.3464847966e-23,0.0000000000e+00,0,0,0,0.0000000000e+00,4.4408920985e-16,0,0,3.4484004047e-09,3.9901149436e-13,6.0409551308e-14,0,,,数值待用户数值确认
+positivity,B,M3-p3,6.0000000000e+01,,,,,,,,,,,,,,,,true,0.0000000000e+00,2.2569455208e-28,0.0000000000e+00,0,0,0,0.0000000000e+00,8.8817841970e-16,0,0,5.6575794572e-03,5.8289032323e-03,0.0000000000e+00,0,,,数值待用户数值确认
+positivity,B,EXP2-midpoint,1.0000000000e-01,,,,,,,,,,,,,,,,true,1.5204022337e-01,1.9609805566e-07,0.0000000000e+00,0,0,0,2.4868995752e-14,5.1070259133e-15,0,0,1.3339233660e-06,1.3145952183e-06,,0,,,数值待用户数值确认
+positivity,B,EXP2-midpoint,1.0000000000e+00,,,,,,,,,,,,,,,,true,1.5252264696e-01,2.1948927951e-07,0.0000000000e+00,0,0,0,3.5527136788e-15,1.3322676296e-15,0,0,1.8823085935e-06,1.6299064451e-06,,0,,,数值待用户数值确认
+positivity,B,EXP2-midpoint,4.2000000000e+00,,,,,,,,,,,,,,,,true,1.6279032932e-01,1.5562120295e-06,0.0000000000e+00,0,0,0,3.5527136788e-15,6.6613381478e-16,0,0,1.1853161618e-05,1.0309496642e-05,,0,,,数值待用户数值确认
+positivity,B,EXP2-midpoint,9.0000000000e+00,,,,,,,,,,,,,,,,true,1.8427886324e-01,7.6679575486e-05,0.0000000000e+00,0,0,0,3.5527136788e-15,8.8817841970e-16,0,0,8.1882432436e-04,5.5407062824e-04,,0,,,数值待用户数值确认
+positivity,B,EXP2-midpoint,2.0000000000e+01,,,,,,,,,,,,,,,,true,2.3426229762e-01,2.0000000000e-03,0.0000000000e+00,0,0,0,0.0000000000e+00,4.4408920985e-16,0,0,5.6575794572e-03,5.6575794572e-03,,0,,,数值待用户数值确认
+positivity,B,EXP2-midpoint,6.0000000000e+01,,,,,,,,,,,,,,,,true,4.0718090932e-01,2.0000000000e-03,0.0000000000e+00,0,0,0,0.0000000000e+00,4.4408920985e-16,0,0,5.6575794572e-03,5.6575794572e-03,,0,,,数值待用户数值确认
+positivity,B,Lagrange3-predictor,1.0000000000e-01,,,,,,,,,,,,,,,,true,1.5203959578e-01,1.9600371809e-07,0.0000000000e+00,0,0,0,5.6843418861e-14,7.7715611724e-15,0,0,1.3336582406e-06,1.2955015768e-06,1.3362049024e-02,0,,,数值待用户数值确认
+positivity,B,Lagrange3-predictor,1.0000000000e+00,,,,,,,,,,,,,,,,true,1.5240396858e-01,2.0741176876e-07,0.0000000000e+00,0,0,0,1.0658141036e-14,1.1102230246e-15,0,0,1.8297486431e-06,1.3751916213e-06,1.1643457757e-02,0,,,数值待用户数值确认
+positivity,B,Lagrange3-predictor,4.2000000000e+00,,,,,,,,,,,,,,,,true,1.6101313603e-01,8.2552452333e-07,0.0000000000e+00,0,0,0,7.1054273576e-15,6.6613381478e-16,0,0,7.1312139792e-06,5.2244832492e-06,8.1320624149e-03,0,,,数值待用户数值确认
+positivity,B,Lagrange3-predictor,9.0000000000e+00,,,,,,,,,,,,,,,,true,1.8192645547e-01,3.0191864121e-05,0.0000000000e+00,0,0,0,3.5527136788e-15,4.4408920985e-16,0,0,4.8591916496e-04,2.0334336233e-04,6.5360386363e-03,0,,,数值待用户数值确认
+positivity,B,Lagrange3-predictor,2.0000000000e+01,,,,,,,,,,,,,,,,true,2.3799916830e-01,2.0000000000e-03,0.0000000000e+00,0,0,0,0.0000000000e+00,4.4408920985e-16,0,0,5.6575794572e-03,5.7927044341e-03,6.5570481001e-03,0,,,数值待用户数值确认
+positivity,B,Lagrange3-predictor,6.0000000000e+01,,,,,,,,,,,,,,,,true,4.4475537316e-01,2.0000000000e-03,0.0000000000e+00,0,0,0,0.0000000000e+00,4.4408920985e-16,0,0,5.6575794572e-03,5.7728070707e-03,7.1248268587e-03,0,,,数值待用户数值确认
+positivity,B,RawCubic-Taylor,1.0000000000e-01,,,,,,,,,,,,,,,,true,1.5203710735e-01,1.9592675860e-07,0.0000000000e+00,0,0,0,5.6843418861e-14,7.1054273576e-15,0,0,1.3331527549e-06,1.2949837317e-06,1.3361278078e-02,0,,,数值待用户数值确认
+positivity,B,RawCubic-Taylor,1.0000000000e+00,,,,,,,,,,,,,,,,true,1.5203699438e-01,1.9583075274e-07,0.0000000000e+00,0,0,0,7.1054273576e-15,1.5543122345e-15,0,0,1.7332485510e-06,1.2957768087e-06,1.1543263417e-02,0,,,数值待用户数值确认
+positivity,B,RawCubic-Taylor,4.2000000000e+00,,,,,,,,,,,,,,,,true,1.5178799014e-01,1.4842988250e-07,0.0000000000e+00,0,0,0,7.1054273576e-15,6.6613381478e-16,0,0,1.4464640119e-06,1.0058653551e-06,5.1500523957e-03,0,,,数值待用户数值确认
+positivity,B,RawCubic-Taylor,9.0000000000e+00,,,,,,,,,,,,,,,,true,1.2521947701e-01,-2.0229486611e-02,0.0000000000e+00,0,222,0,3.5527136788e-15,6.6613381478e-16,24,0,-1.0739577624e-02,-1.5144987685e-01,-4.2955669438e+00,0,,,数值待用户数值确认
+positivity,B,RawCubic-Taylor,2.0000000000e+01,,,,,,,,,,,,,,,,true,2.7295052976e-10,-4.5524628148e-12,0.0000000000e+00,0,9,0,3.5527136788e-15,4.4408920985e-16,0,0,1.2763752094e-03,-1.5666845822e-02,-4.7718675180e-02,0,,,数值待用户数值确认
+positivity,B,RawCubic-Taylor,6.0000000000e+01,,,,,,,,,,,,,,,,true,1.7254277304e-85,2.2806290905e-23,0.0000000000e+00,0,0,0,0.0000000000e+00,4.4408920985e-16,0,0,5.6575794572e-03,5.8287801291e-03,4.1277171856e-83,0,,,数值待用户数值确认
+positivity,C,M3-p3(exact-jet),1.0000000000e-01,,,,,,,,,,,,,,,,true,4.5071457172e-01,6.1358312599e-04,0.0000000000e+00,0,0,0,2.1316282073e-14,5.3290705182e-15,0,0,1.6872068760e-03,1.6695911203e-03,,,,,"boundary probe, OUTSIDE quadratic class; 数值待用户数值确认"
+positivity,C,M3-p3(exact-jet),1.0000000000e+00,,,,,,,,,,,,,,,,true,4.5071466041e-01,6.1357914826e-04,0.0000000000e+00,0,0,0,7.1054273576e-15,8.8817841970e-16,0,0,1.8549044746e-03,1.6704210559e-03,,,,,"boundary probe, OUTSIDE quadratic class; 数值待用户数值确认"
+positivity,C,M3-p3(exact-jet),4.2000000000e+00,,,,,,,,,,,,,,,,true,4.5017898605e-01,5.9283931408e-04,0.0000000000e+00,0,0,0,3.5527136788e-15,4.4408920985e-16,0,0,1.8327348883e-03,1.6155968238e-03,,,,,"boundary probe, OUTSIDE quadratic class; 数值待用户数值确认"
+positivity,C,M3-p3(exact-jet),9.0000000000e+00,,,,,,,,,,,,,,,,true,3.1260944296e-01,1.7372451458e-05,0.0000000000e+00,0,0,0,0.0000000000e+00,4.4408920985e-16,0,0,4.2555821779e-04,5.6668773820e-09,,,,,"boundary probe, OUTSIDE quadratic class; 数值待用户数值确认"
+positivity,C,M3-p3(exact-jet),2.0000000000e+01,,,,,,,,,,,,,,,,true,2.5051330955e-15,5.3364063312e-12,0.0000000000e+00,0,0,0,3.5527136788e-15,8.8817841970e-16,0,0,3.6162576418e-03,8.1097523353e-04,,,,,"boundary probe, OUTSIDE quadratic class; 数值待用户数值确认"
+positivity,C,M3-p3(exact-jet),6.0000000000e+01,,,,,,,,,,,,,,,,true,0.0000000000e+00,7.7008403193e-23,0.0000000000e+00,0,0,0,0.0000000000e+00,8.8817841970e-16,0,0,3.6162576418e-03,3.6638890766e-03,,,,,"boundary probe, OUTSIDE quadratic class; 数值待用户数值确认"
+joint_metric,B,M3-p3,,,order_fit,3.5499226838e+00,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,log-log fit over the same 8 h (equal-h); 数值待用户数值确认
+joint_metric,B,M3-p3,,,unconditional_positivity_over_6_h,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"h in {0.1,1,4.2,9,20,60} d; 数值待用户数值确认"
+joint_metric,B,M3-p3,,,L2_at_h1,1.8498919943e-05,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"equal-h, no adaptive subcycling; 数值待用户数值确认"
+joint_metric,B,EXP2-midpoint,,,order_fit,2.1613716387e+00,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,log-log fit over the same 8 h (equal-h); 数值待用户数值确认
+joint_metric,B,EXP2-midpoint,,,unconditional_positivity_over_6_h,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"h in {0.1,1,4.2,9,20,60} d; 数值待用户数值确认"
+joint_metric,B,EXP2-midpoint,,,L2_at_h1,3.1867891315e-03,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"equal-h, no adaptive subcycling; 数值待用户数值确认"
+joint_metric,B,Lagrange3-predictor,,,order_fit,2.0585477792e+00,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,log-log fit over the same 8 h (equal-h); 数值待用户数值确认
+joint_metric,B,Lagrange3-predictor,,,unconditional_positivity_over_6_h,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"h in {0.1,1,4.2,9,20,60} d; 数值待用户数值确认"
+joint_metric,B,Lagrange3-predictor,,,L2_at_h1,3.6628065782e-03,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"equal-h, no adaptive subcycling; 数值待用户数值确认"
+joint_metric,B,RawCubic-Taylor,,,order_fit,3.4074451420e+00,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,log-log fit over the same 8 h (equal-h); 数值待用户数值确认
+joint_metric,B,RawCubic-Taylor,,,unconditional_positivity_over_6_h,false,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"h in {0.1,1,4.2,9,20,60} d; 数值待用户数值确认"
+joint_metric,B,RawCubic-Taylor,,,L2_at_h1,7.9746780220e-06,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"equal-h, no adaptive subcycling; 数值待用户数值确认"
+negative_control,NC1,,,,min_offdiag_entry,-3.5000000000e-01,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,NEGATIVE off-diagonal => generator is NOT Metzler/phase-type; Proposition 1's non-negative Poisson propagator premise fails
+negative_control,NC1,,,,n_negative_offdiag_entries,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+negative_control,NC1,,,,phasetype_T_min_entry,0.0000000000e+00,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,min entry of the SAME-K chl.poisson_T family (>=0 by construction)
+negative_control,NC1,,1.0000000000e-01,,expm(G*h)_trajectory,2.9532831126e-03,,,,,,,,,,,,,,,2.9532831126e-03,,,0,,,,,,,,,,,,"min expm entry=-3.229400e-02, n_neg_expm=1, all_finite=True; a non-negative IC develops negative I components; 数值待用户数值确认"
+negative_control,NC1,,1.0000000000e+00,,expm(G*h)_trajectory,1.4046143607e-01,,,,,,,,,,,,,,,1.4046143607e-01,,,0,,,,,,,,,,,,"min expm entry=-1.500282e-01, n_neg_expm=1, all_finite=True; a non-negative IC develops negative I components; 数值待用户数值确认"
+negative_control,NC1,,4.2000000000e+00,,expm(G*h)_trajectory,-2.1066483477e-02,,,,,,,,,,,,,,,-2.1066483477e-02,,,1,,,,,,,,,,,,"min expm entry=-2.106648e-02, n_neg_expm=3, all_finite=True; a non-negative IC develops negative I components; 数值待用户数值确认"
+negative_control,NC1,,9.0000000000e+00,,expm(G*h)_trajectory,-1.1273230910e-03,,,,,,,,,,,,,,,-1.1273230910e-03,,,1,,,,,,,,,,,,"min expm entry=-1.127323e-03, n_neg_expm=2, all_finite=True; a non-negative IC develops negative I components; 数值待用户数值确认"
+negative_control,NC1,,2.0000000000e+01,,expm(G*h)_trajectory,-1.5586161874e-07,,,,,,,,,,,,,,,-1.5586161874e-07,,,2,,,,,,,,,,,,"min expm entry=-1.558616e-07, n_neg_expm=4, all_finite=True; a non-negative IC develops negative I components; 数值待用户数值确认"
+negative_control,NC1,,6.0000000000e+01,,expm(G*h)_trajectory,1.7904361355e-22,,,,,,,,,,,,,,,1.7904361355e-22,,,0,,,,,,,,,,,,"min expm entry=-3.082150e-22, n_neg_expm=0, all_finite=True; a non-negative IC develops negative I components; 数值待用户数值确认"
+negative_control,NC2,,,,lambda_0_paper_linear_vs_exact,0.0000000000e+00,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,lambda_exact=4.500000e-02 lambda_linear_assumed=4.500000e-02 abs_diff=0.000000e+00; identity lambda_j = L a_j fails because Lambda is nonlinear; 数值待用户数值确认
+negative_control,NC2,,,,lambda_1_paper_linear_vs_exact,2.6588168265e-02,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,lambda_exact=2.925278e-02 lambda_linear_assumed=2.847500e-02 abs_diff=7.777778e-04; identity lambda_j = L a_j fails because Lambda is nonlinear; 数值待用户数值确认
+negative_control,NC2,,,,lambda_2_paper_linear_vs_exact,6.7973795020e-02,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,lambda_exact=2.426407e-02 lambda_linear_assumed=2.261475e-02 abs_diff=1.649321e-03; identity lambda_j = L a_j fails because Lambda is nonlinear; 数值待用户数值确认
+negative_control,NC2,,,,lambda_3_paper_linear_vs_exact,1.3549123282e-01,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,lambda_exact=1.865429e-02 lambda_linear_assumed=1.612680e-02 abs_diff=2.527493e-03; identity lambda_j = L a_j fails because Lambda is nonlinear; 数值待用户数值确认
+negative_control,NC2,,,,exact_jet_fit_order,3.7753997221e+00,,,,,,9.9492818663e-01,8,,,,,,,,,,,,,,,,,,,,,,,boundary evidence: with an EXACT nonlinear jet the SAME propagator recovers 4th order; the paper's Propositions are NOT claimed here; 数值待用户数值确认
+negative_control,NC2,,,,linear_assumed_fit_order,-1.3871572335e-03,,,,,,6.5915701615e-01,8,,,,,,,,,,,,,,,,,,,,,,,production recursion applied verbatim outside its class: no 4th-order convergence to the true ODE; 数值待用户数值确认
+negative_control,NC2,,1.0000000000e+00,,L2_exact_jet,,,1.5506775319e-04,,,,,,,,,,,,,,,,,,,,,,,,,,,,数值待用户数值确认
+negative_control,NC2,,1.0000000000e+00,,L2_linear_assumed,,,3.6393966952e-02,,,,,,,,,,,,,,,,,,,,,,,,,,,,数值待用户数值确认
+negative_control,NC2,,5.0000000000e-01,,L2_exact_jet,,,1.0432268479e-05,,,,,,,,,,,,,,,,,,,,,,,,,,,,数值待用户数值确认
+negative_control,NC2,,5.0000000000e-01,,L2_linear_assumed,,,3.6577990959e-02,,,,,,,,,,,,,,,,,,,,,,,,,,,,数值待用户数值确认
+negative_control,NC2,,2.5000000000e-01,,L2_exact_jet,,,6.7210120785e-07,,,,,,,,,,,,,,,,,,,,,,,,,,,,数值待用户数值确认
+negative_control,NC2,,2.5000000000e-01,,L2_linear_assumed,,,3.6643131934e-02,,,,,,,,,,,,,,,,,,,,,,,,,,,,数值待用户数值确认
+negative_control,NC2,,1.2500000000e-01,,L2_exact_jet,,,4.2600955555e-08,,,,,,,,,,,,,,,,,,,,,,,,,,,,数值待用户数值确认
+negative_control,NC2,,1.2500000000e-01,,L2_linear_assumed,,,3.6674040776e-02,,,,,,,,,,,,,,,,,,,,,,,,,,,,数值待用户数值确认
+negative_control,NC2,,6.2500000000e-02,,L2_exact_jet,,,2.6807973772e-09,,,,,,,,,,,,,,,,,,,,,,,,,,,,数值待用户数值确认
+negative_control,NC2,,6.2500000000e-02,,L2_linear_assumed,,,3.6689403387e-02,,,,,,,,,,,,,,,,,,,,,,,,,,,,数值待用户数值确认
+negative_control,NC2,,3.1250000000e-02,,L2_exact_jet,,,1.6814092499e-10,,,,,,,,,,,,,,,,,,,,,,,,,,,,数值待用户数值确认
+negative_control,NC2,,3.1250000000e-02,,L2_linear_assumed,,,3.6697081817e-02,,,,,,,,,,,,,,,,,,,,,,,,,,,,数值待用户数值确认
+negative_control,NC2,,1.5625000000e-02,,L2_exact_jet,,,1.1039046189e-11,,,,,,,,,,,,,,,,,,,,,,,,,,,,数值待用户数值确认
+negative_control,NC2,,1.5625000000e-02,,L2_linear_assumed,,,3.6700921559e-02,,,,,,,,,,,,,,,,,,,,,,,,,,,,数值待用户数值确认
+negative_control,NC2,,7.8125000000e-03,,L2_exact_jet,,,3.4340048834e-12,,,,,,,,,,,,,,,,,,,,,,,,,,,,数值待用户数值确认
+negative_control,NC2,,7.8125000000e-03,,L2_linear_assumed,,,3.6702841638e-02,,,,,,,,,,,,,,,,,,,,,,,,,,,,数值待用户数值确认
+md5,,,,,csv_md5,4b4ec77f9459cbe9f29f36a6298c05be,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,byte-identical payload written to both paths; asserted at runtime
